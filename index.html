@@ -45,7 +45,7 @@
                     </h2>
                     <div>
                         <label for="data-input" class="block text-xs font-semibold text-gray-600 uppercase tracking-wide mb-1.5">Text or URL</label>
-                        <input type="text" id="data-input" class="w-full px-3 py-2 text-sm rounded-lg border border-gray-300 focus:ring-2 focus:ring-primary focus:border-primary transition-colors bg-gray-50 focus:bg-white" placeholder="Type something or paste a URL..." value="https://example.com">
+                        <input type="text" id="data-input" class="w-full px-3 py-2 text-sm rounded-lg border border-gray-300 focus:ring-2 focus:ring-primary focus:border-primary transition-colors bg-gray-50 focus:bg-white" placeholder="Type something or paste a URL..." value="https://tr4n.github.io/qr-generator/">
                     </div>
                 </section>
 
@@ -59,19 +59,13 @@
                     </h2>
                     
                     <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                        <!-- Size -->
-                        <div>
-                            <label for="qr-size" class="block text-xs font-semibold text-gray-600 uppercase tracking-wide mb-1.5">Output Size (px)</label>
-                            <input type="number" id="qr-size" value="300" min="100" max="2000" step="50" class="w-full px-3 py-2 text-sm rounded-lg border border-gray-300 focus:ring-2 focus:ring-primary focus:border-primary transition-colors bg-gray-50 focus:bg-white text-gray-800">
-                        </div>
-
                         <!-- Dots Style -->
                         <div>
                             <label for="dots-style" class="block text-xs font-semibold text-gray-600 uppercase tracking-wide mb-1.5">Dots Style</label>
                             <select id="dots-style" class="w-full px-3 py-2 text-sm rounded-lg border border-gray-300 focus:ring-2 focus:ring-primary focus:border-primary transition-colors bg-gray-50 focus:bg-white cursor-pointer text-gray-800">
                                 <option value="rounded">Rounded</option>
                                 <option value="extra-rounded">Extra Rounded</option>
-                                <option value="dots">Dots</option>
+                                <option value="dots" selected>Dots</option>
                                 <option value="square">Square</option>
                             </select>
                         </div>
@@ -100,8 +94,8 @@
                         <div>
                             <label for="corner-color" class="block text-xs font-semibold text-gray-600 uppercase tracking-wide mb-1.5">Eyes Color</label>
                             <div class="flex items-center gap-2">
-                                <input type="color" id="corner-color" value="#0f172a" class="h-6 w-8 rounded cursor-pointer border-0 p-0 shadow-sm block bg-transparent">
-                                <span class="text-xs font-medium text-gray-600 font-mono" id="corner-color-value">#0f172a</span>
+                                <input type="color" id="corner-color" value="#000000" class="h-6 w-8 rounded cursor-pointer border-0 p-0 shadow-sm block bg-transparent">
+                                <span class="text-xs font-medium text-gray-600 font-mono" id="corner-color-value">#000000</span>
                             </div>
                         </div>
 
@@ -182,16 +176,23 @@
                 <div class="sticky top-8 bg-white rounded-xl shadow-sm border border-gray-100 p-5 flex flex-col items-center">
                     <h2 class="text-xs font-semibold text-gray-600 uppercase tracking-wide w-full text-center border-b border-gray-100 pb-3 mb-4">Live Preview</h2>
                     
-                    <div id="qr-preview-container" class="bg-gray-50 p-3 rounded-xl border-2 border-dashed border-gray-200 mb-5 min-h-[250px] min-w-[250px] w-full flex items-center justify-center transition-all bg-white shadow-inner relative overflow-hidden">
+                    <div id="qr-preview-container" class="bg-gray-50 p-2 rounded-xl border-2 border-dashed border-gray-200 mb-5 w-full aspect-square flex items-center justify-center transition-all bg-white shadow-inner relative overflow-hidden">
                         <!-- QR Code will be generated here -->
                     </div>
 
-                    <div class="w-full">
+                    <div class="w-full space-y-3">
+                        <div>
+                            <label for="qr-size" class="block text-xs font-semibold text-gray-600 uppercase tracking-wide mb-1.5 flex justify-between">
+                                <span>Output Size (px)</span>
+                            </label>
+                            <input type="number" id="qr-size" value="300" min="50" max="1000" step="50" class="w-full px-3 py-2 text-sm rounded-lg border border-gray-300 focus:ring-2 focus:ring-primary focus:border-primary transition-colors bg-gray-50 focus:bg-white text-gray-800">
+                        </div>
+
                         <button id="download-png" class="w-full bg-primary hover:bg-indigo-700 text-white font-medium py-2 px-4 rounded-lg transition-colors flex justify-center items-center gap-2 group shadow-sm hover:shadow-md text-sm">
                             <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 transition-transform group-hover:-translate-y-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
                             </svg>
-                            Download PNG
+                            Download QR Code
                         </button>
                     </div>
                 </div>

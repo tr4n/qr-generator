@@ -30,10 +30,10 @@ document.addEventListener('DOMContentLoaded', () => {
     // Default configuration for QR Code Styling
     const defaultOptions = {
         type: "svg",
-        width: parseInt(qrSizeInput.value) || 300,
-        height: parseInt(qrSizeInput.value) || 300,
-        data: dataInput.value || "https://example.com",
-        margin: 0,
+        width: 250,
+        height: 250,
+        data: dataInput.value || "https://tr4n.github.io/qr-generator/",
+        margin: 10,
         qrOptions: {
             typeNumber: 0,
             mode: "Byte",
@@ -47,7 +47,7 @@ document.addEventListener('DOMContentLoaded', () => {
         },
         dotsOptions: {
             color: dotsColorInput ? dotsColorInput.value : "#0f172a",
-            type: "rounded"
+            type: dotsStyleInput ? dotsStyleInput.value : "dots"
         },
         backgroundOptions: {
             color: bgColorInput ? bgColorInput.value : "#ffffff",
@@ -82,11 +82,8 @@ document.addEventListener('DOMContentLoaded', () => {
     // Function to update QR code
     const updateQRCode = debounce(() => {
         const text = dataInput.value.trim();
-        let size = parseInt(qrSizeInput.value) || 300;
-        
-        // Validation for reasonable sizes
-        if (size < 100) size = 100;
-        if (size > 3000) size = 3000;
+        const size = 250; // Fixed size for preview
+
 
         const style = dotsStyleInput.value;
         const density = dotDensityInput.value;
@@ -101,7 +98,7 @@ document.addEventListener('DOMContentLoaded', () => {
         if (!text) return;
 
         // Determine margin and frame effects
-        const marginPx = hasFrame ? Math.floor(size * 0.08) : 0; 
+        const marginPx = hasFrame ? Math.floor(size * 0.08) : Math.floor(size * 0.04); 
         
         const newOptions = {
             type: "svg",
@@ -175,7 +172,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Listeners for all inputs
     dataInput.addEventListener('input', updateQRCode);
-    qrSizeInput.addEventListener('input', updateQRCode);
     dotsStyleInput.addEventListener('change', updateQRCode);
     dotDensityInput.addEventListener('change', updateQRCode);
     
@@ -202,7 +198,31 @@ document.addEventListener('DOMContentLoaded', () => {
     addFrameCheckbox.addEventListener('change', updateQRCode);
     hideBgDotsCheckbox.addEventListener('change', updateQRCode);
 
-    downloadPngBtn.addEventListener('click', () => {
-        qrCode.download({ name: "qr-code", extension: "png" });
+    downloadPngBtn.addEventListener('click', async () => {
+        let downloadSize = parseInt(qrSizeInput.value) || 300;
+        if (downloadSize < 50) downloadSize = 50;
+        if (downloadSize > 3000) downloadSize = 3000;
+
+        const hasFrame = addFrameCheckbox.checked;
+        
+        // Update temporarily for high-res download
+        qrCode.update({
+            width: downloadSize,
+            height: downloadSize,
+            margin: hasFrame ? Math.floor(downloadSize * 0.08) : Math.floor(downloadSize * 0.04)
+        });
+
+        try {
+            await qrCode.download({ name: "qr-code", extension: "png" });
+        } catch (e) {
+            console.error('Download failed:', e);
+        } finally {
+            // Restore lightweight preview size
+            qrCode.update({
+                width: 250,
+                height: 250,
+                margin: hasFrame ? Math.floor(250 * 0.08) : 10
+            });
+        }
     });
 });
