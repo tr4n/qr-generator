@@ -26,12 +26,13 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // State
     let currentLogoImage = null;
+    let lastGeneratedOptions = null;
 
     // Default configuration for QR Code Styling
     const defaultOptions = {
         type: "svg",
-        width: 250,
-        height: 250,
+        width: 350,
+        height: 350,
         data: dataInput.value || "https://tr4n.github.io/qr-generator/",
         margin: 10,
         qrOptions: {
@@ -63,6 +64,7 @@ document.addEventListener('DOMContentLoaded', () => {
     };
 
     // Initialize QR Code Styling instance
+    lastGeneratedOptions = defaultOptions;
     let qrCode = new QRCodeStyling(defaultOptions);
 
     // Initial render
@@ -82,7 +84,7 @@ document.addEventListener('DOMContentLoaded', () => {
     // Function to update QR code
     const updateQRCode = debounce(() => {
         const text = dataInput.value.trim();
-        const size = 250; // Fixed size for preview
+        const size = 350; // Increased fixed size for sharper preview math
 
 
         const style = dotsStyleInput.value;
@@ -133,6 +135,7 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         };
 
+        lastGeneratedOptions = newOptions;
         qrCode.update(newOptions);
     }, 150);
 
@@ -217,25 +220,24 @@ document.addEventListener('DOMContentLoaded', () => {
         if (downloadSize > 3000) downloadSize = 3000;
 
         const hasFrame = addFrameCheckbox.checked;
+        const targetMargin = hasFrame ? Math.floor(downloadSize * 0.08) : Math.floor(downloadSize * 0.04);
         
-        // Update temporarily for high-res download
-        qrCode.update({
+        // Use a pristine, standalone canvas instance strictly for high-res export
+        // This eliminates fractional pixel smudging from UI updates
+        const exportOptions = {
+            ...lastGeneratedOptions,
+            type: "canvas", 
             width: downloadSize,
             height: downloadSize,
-            margin: hasFrame ? Math.floor(downloadSize * 0.08) : Math.floor(downloadSize * 0.04)
-        });
+            margin: targetMargin
+        };
+
+        const exportQrCode = new QRCodeStyling(exportOptions);
 
         try {
-            await qrCode.download({ name: "qr-code", extension: "png" });
+            await exportQrCode.download({ name: "qr-code", extension: "png" });
         } catch (e) {
             console.error('Download failed:', e);
-        } finally {
-            // Restore lightweight preview size
-            qrCode.update({
-                width: 250,
-                height: 250,
-                margin: hasFrame ? Math.floor(250 * 0.08) : 10
-            });
         }
     });
 });
