@@ -106,7 +106,7 @@ document.addEventListener('DOMContentLoaded', () => {
             width: size,
             height: size,
             margin: marginPx,
-            image: currentLogoImage,
+            image: currentLogoImage || "",
             qrOptions: {
                 errorCorrectionLevel: density
             },
@@ -148,6 +148,12 @@ document.addEventListener('DOMContentLoaded', () => {
             return;
         }
 
+        // Reset logo size to default
+        if (logoSizeInput) {
+            logoSizeInput.value = 0.45;
+            if (logoSizeValue) logoSizeValue.textContent = '45%';
+        }
+
         // Display file name
         logoFileName.textContent = file.name;
         fileNameDisplay.classList.remove('hidden');
@@ -167,6 +173,13 @@ document.addEventListener('DOMContentLoaded', () => {
         currentLogoImage = null; // Clear state
         fileNameDisplay.classList.add('hidden'); // Hide UI
         logoFileName.textContent = '';
+        
+        // Reset logo size to default
+        if (logoSizeInput) {
+            logoSizeInput.value = 0.45;
+            if (logoSizeValue) logoSizeValue.textContent = '45%';
+        }
+
         updateQRCode(); // Re-render
     });
 
