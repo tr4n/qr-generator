@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Fast online QR code generator with deep customization options (change color, add frame, rounded corners) and PNG download support.">
+    <title>Premium Custom QR Code Generator</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#4f46e5',
+                    }
+                }
+            }
+        }
+    </script>
+    <link rel="stylesheet" href="style.css">
+    <!-- QR Code Styling Library -->
+    <script src="https://cdn.jsdelivr.net/npm/qr-code-styling@1.5.0/lib/qr-code-styling.js"></script>
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body class="bg-gray-50 text-gray-800 font-sans antialiased min-h-screen">
+    
+    <main class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-8 md:py-12 flex flex-col items-center">
+        <header class="mb-6 text-center w-full">
+            <h1 class="text-2xl font-bold tracking-tight text-gray-900">Premium Custom QR Code Generator</h1>
+            <p class="mt-1.5 text-sm text-gray-600">Create, customize, and download high-quality QR codes</p>
+        </header>
+
+        <div class="flex flex-col lg:flex-row gap-6 w-full justify-center items-start">
+            <!-- Control Panel (Left) -->
+            <div class="flex-1 space-y-4 lg:max-w-md w-full">
+                <!-- Data Input Card -->
+                <section class="bg-white rounded-xl shadow-sm border border-gray-100 p-5 transition-all hover:shadow-md w-full">
+                    <h2 class="text-lg font-semibold mb-3 flex items-center gap-2">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-primary" viewBox="0 0 20 20" fill="currentColor">
+                            <path fill-rule="evenodd" d="M12.586 4.586a2 2 0 112.828 2.828l-3 3a2 2 0 01-2.828 0 1 1 0 00-1.414 1.414 4 4 0 005.656 0l3-3a4 4 0 00-5.656-5.656l-1.5 1.5a1 1 0 101.414 1.414l1.5-1.5zm-5 5a2 2 0 012.828 0 1 1 0 101.414-1.414 4 4 0 00-5.656 0l-3 3a4 4 0 105.656 5.656l1.5-1.5a1 1 0 10-1.414-1.414l-1.5 1.5a2 2 0 11-2.828-2.828l3-3z" clip-rule="evenodd" />
+                        </svg>
+                        QR Code Content
+                    </h2>
+                    <div>
+                        <label for="data-input" class="block text-xs font-semibold text-gray-600 uppercase tracking-wide mb-1.5">Text or URL</label>
+                        <input type="text" id="data-input" class="w-full px-3 py-2 text-sm rounded-lg border border-gray-300 focus:ring-2 focus:ring-primary focus:border-primary transition-colors bg-gray-50 focus:bg-white" placeholder="Type something or paste a URL..." value="https://example.com">
+                    </div>
+                </section>
+
+                <!-- Customization Panel -->
+                <section class="bg-white rounded-xl shadow-sm border border-gray-100 p-5 transition-all hover:shadow-md w-full">
+                    <h2 class="text-lg font-semibold mb-4 flex items-center gap-2">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-primary" viewBox="0 0 20 20" fill="currentColor">
+                            <path fill-rule="evenodd" d="M11.49 3.17c-.38-1.56-2.6-1.56-2.98 0a1.532 1.532 0 01-2.286.948c-1.372-.836-2.942.734-2.106 2.106.54.886.061 2.042-.947 2.287-1.561.379-1.561 2.6 0 2.978a1.532 1.532 0 01.947 2.287c-.836 1.372.734 2.942 2.106 2.106a1.532 1.532 0 012.287.947c.379 1.561 2.6 1.561 2.978 0a1.533 1.533 0 012.287-.947c1.372.836 2.942-.734 2.106-2.106a1.533 1.533 0 01.947-2.287c1.561-.379 1.561-2.6 0-2.978a1.532 1.532 0 01-.947-2.287c.836-1.372-.734-2.942-2.106-2.106a1.532 1.532 0 01-2.287-.947zM10 13a3 3 0 100-6 3 3 0 000 6z" clip-rule="evenodd" />
+                        </svg>
+                        Advanced Customization
+                    </h2>
+                    
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                        <!-- Size -->
+                        <div>
+                            <label for="qr-size" class="block text-xs font-semibold text-gray-600 uppercase tracking-wide mb-1.5">Output Size (px)</label>
+                            <input type="number" id="qr-size" value="300" min="100" max="2000" step="50" class="w-full px-3 py-2 text-sm rounded-lg border border-gray-300 focus:ring-2 focus:ring-primary focus:border-primary transition-colors bg-gray-50 focus:bg-white text-gray-800">
+                        </div>
+
+                        <!-- Dots Style -->
+                        <div>
+                            <label for="dots-style" class="block text-xs font-semibold text-gray-600 uppercase tracking-wide mb-1.5">Dots Style</label>
+                            <select id="dots-style" class="w-full px-3 py-2 text-sm rounded-lg border border-gray-300 focus:ring-2 focus:ring-primary focus:border-primary transition-colors bg-gray-50 focus:bg-white cursor-pointer text-gray-800">
+                                <option value="rounded">Rounded</option>
+                                <option value="extra-rounded">Extra Rounded</option>
+                                <option value="dots">Dots</option>
+                                <option value="square">Square</option>
+                            </select>
+                        </div>
+                        
+                        <!-- Dot Density -->
+                        <div>
+                            <label for="dot-density" class="block text-xs font-semibold text-gray-600 uppercase tracking-wide mb-1.5">Grid Density</label>
+                            <select id="dot-density" class="w-full px-3 py-2 text-sm rounded-lg border border-gray-300 focus:ring-2 focus:ring-primary focus:border-primary transition-colors bg-gray-50 focus:bg-white cursor-pointer text-gray-800">
+                                <option value="L">Sparser</option>
+                                <option value="M">Medium Sparse</option>
+                                <option value="Q" selected>Normal</option>
+                                <option value="H">Dense</option>
+                            </select>
+                        </div>
+
+                        <!-- Foreground Color -->
+                        <div>
+                            <label for="dots-color" class="block text-xs font-semibold text-gray-600 uppercase tracking-wide mb-1.5">Dots Color</label>
+                            <div class="flex items-center gap-2">
+                                <input type="color" id="dots-color" value="#0f172a" class="h-6 w-8 rounded cursor-pointer border-0 p-0 shadow-sm block bg-transparent">
+                                <span class="text-xs font-medium text-gray-600 font-mono" id="dots-color-value">#0f172a</span>
+                            </div>
+                        </div>
+
+                        <!-- Corner Eyes Color -->
+                        <div>
+                            <label for="corner-color" class="block text-xs font-semibold text-gray-600 uppercase tracking-wide mb-1.5">Eyes Color</label>
+                            <div class="flex items-center gap-2">
+                                <input type="color" id="corner-color" value="#0f172a" class="h-6 w-8 rounded cursor-pointer border-0 p-0 shadow-sm block bg-transparent">
+                                <span class="text-xs font-medium text-gray-600 font-mono" id="corner-color-value">#0f172a</span>
+                            </div>
+                        </div>
+
+                        <!-- Background Color -->
+                        <div>
+                            <label for="bg-color" class="block text-xs font-semibold text-gray-600 uppercase tracking-wide mb-1.5">Bg Color</label>
+                            <div class="flex items-center gap-2">
+                                <input type="color" id="bg-color" value="#ffffff" class="h-6 w-8 rounded cursor-pointer border border-gray-200 p-0 shadow-sm block bg-transparent">
+                                <span class="text-xs font-medium text-gray-600 font-mono" id="bg-color-value">#ffffff</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="mt-4 border-t border-gray-100 pt-4">
+                        <h3 class="block text-xs font-semibold text-gray-600 uppercase tracking-wide mb-2.5">Frame Options</h3>
+                        <div class="space-y-3">
+                            <!-- Frame Toggle -->
+                            <label class="flex items-center gap-2 cursor-pointer group">
+                                <div class="relative flex items-center">
+                                    <input type="checkbox" id="add-frame" class="w-4 h-4 rounded border-gray-300 text-primary focus:ring-primary transition-colors cursor-pointer">
+                                </div>
+                                <span class="text-xs font-medium text-gray-700 group-hover:text-gray-900 transition-colors">Add Safe Margin (Frame)</span>
+                            </label>
+                        </div>
+                    </div>
+
+                    <div class="mt-4 border-t border-gray-100 pt-4">
+                        <label class="block text-xs font-semibold text-gray-600 uppercase tracking-wide mb-2.5">Center Logo</label>
+                        <div class="mt-1 flex justify-center px-4 py-4 border-2 border-gray-300 border-dashed rounded-xl hover:border-primary transition-colors bg-gray-50 relative group">
+                            <div class="space-y-1 text-center">
+                                <svg class="mx-auto h-8 w-8 text-gray-400 group-hover:text-primary transition-colors" stroke="currentColor" fill="none" viewBox="0 0 48 48" aria-hidden="true">
+                                    <path d="M28 8H12a4 4 0 00-4 4v20m32-12v8m0 0v8a4 4 0 01-4 4H12a4 4 0 01-4-4v-4m32-4l-3.172-3.172a4 4 0 00-5.656 0L28 28M8 32l9.172-9.172a4 4 0 015.656 0L28 28m0 0l4 4m4-24h8m-4-4v8m-12 4h.02" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                                </svg>
+                                <div class="flex text-xs text-gray-600 justify-center">
+                                    <label for="logo-upload" class="relative cursor-pointer bg-white rounded-md font-medium text-primary hover:text-indigo-500 focus-within:outline-none px-1">
+                                        <span>Upload Image</span>
+                                        <input id="logo-upload" name="logo-upload" type="file" class="sr-only" accept="image/png, image/jpeg, image/svg+xml">
+                                    </label>
+                                    <p class="pl-1">or drag & drop here</p>
+                                </div>
+                                <p class="text-[10px] text-gray-500">PNG, JPG, SVG up to 2MB</p>
+                            </div>
+                        </div>
+
+                        <!-- Display selected file -->
+                        <div id="file-name-display" class="text-xs text-green-600 mt-2 hidden flex items-center justify-between bg-green-50 px-2 py-1.5 rounded-lg border border-green-100">
+                           <div class="flex items-center gap-1.5 overflow-hidden">
+                               <svg xmlns="http://www.w3.org/2000/svg" class="h-3 w-3 flex-shrink-0" viewBox="0 0 20 20" fill="currentColor">
+                                   <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd" />
+                               </svg>
+                               <span id="logo-file-name" class="truncate font-medium"></span>
+                           </div>
+                           <button id="remove-logo" class="text-red-500 hover:text-red-700 text-[10px] font-semibold px-2 py-0.5 bg-red-50 rounded hover:bg-red-100 transition-colors">Remove</button>
+                        </div>
+
+                        <div class="mt-4">
+                            <label for="logo-size" class="block text-xs font-semibold text-gray-600 uppercase tracking-wide mb-1.5 flex justify-between">
+                                <span>Logo Size</span>
+                                <span id="logo-size-value" class="text-primary font-semibold">45%</span>
+                            </label>
+                            <input type="range" id="logo-size" min="0.2" max="0.6" step="0.05" value="0.45" class="w-full h-1.5 bg-gray-200 rounded-lg appearance-none cursor-pointer accent-primary">
+                        </div>
+
+                        <div class="mt-4">
+                            <label class="flex items-center gap-2 cursor-pointer group w-max">
+                                <div class="relative flex items-center">
+                                    <input type="checkbox" id="hide-bg-dots" class="w-4 h-4 rounded border-gray-300 text-primary focus:ring-primary transition-colors cursor-pointer" checked>
+                                </div>
+                                <span class="text-xs font-medium text-gray-700 group-hover:text-gray-900 transition-colors">Hide background dots behind logo</span>
+                            </label>
+                        </div>
+                    </div>
+                </section>
+            </div>
+
+            <!-- Preview Window (Right) -->
+            <aside class="lg:w-80 shrink-0 relative w-full lg:px-0">
+                <div class="sticky top-8 bg-white rounded-xl shadow-sm border border-gray-100 p-5 flex flex-col items-center">
+                    <h2 class="text-xs font-semibold text-gray-600 uppercase tracking-wide w-full text-center border-b border-gray-100 pb-3 mb-4">Live Preview</h2>
+                    
+                    <div id="qr-preview-container" class="bg-gray-50 p-3 rounded-xl border-2 border-dashed border-gray-200 mb-5 min-h-[250px] min-w-[250px] w-full flex items-center justify-center transition-all bg-white shadow-inner relative overflow-hidden">
+                        <!-- QR Code will be generated here -->
+                    </div>
+
+                    <div class="w-full">
+                        <button id="download-png" class="w-full bg-primary hover:bg-indigo-700 text-white font-medium py-2 px-4 rounded-lg transition-colors flex justify-center items-center gap-2 group shadow-sm hover:shadow-md text-sm">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 transition-transform group-hover:-translate-y-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
+                            </svg>
+                            Download PNG
+                        </button>
+                    </div>
+                </div>
+            </aside>
+        </div>
+    </main>
+
+    <script src="script.js"></script>
+</body>
+</html>
