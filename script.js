@@ -1,7 +1,9 @@
 document.addEventListener('DOMContentLoaded', () => {
     const dataInput = document.getElementById('data-input');
+    const charCount = document.getElementById('char-count');
     const qrContainer = document.getElementById('qr-preview-container');
     const downloadPngBtn = document.getElementById('download-png');
+    const copyPngBtn = document.getElementById('copy-png');
 
     // Customization elements
     const qrSizeInput = document.getElementById('qr-size');
@@ -187,7 +189,20 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     // Listeners for all inputs
-    dataInput.addEventListener('input', updateQRCode);
+    dataInput.addEventListener('input', () => {
+        const length = dataInput.value.length;
+        if (charCount) {
+            charCount.textContent = `${length}/2000`;
+            if (length >= 2000) {
+                charCount.classList.add('text-red-500');
+                charCount.classList.remove('text-gray-400');
+            } else {
+                charCount.classList.remove('text-red-500');
+                charCount.classList.add('text-gray-400');
+            }
+        }
+        updateQRCode();
+    });
     dotsStyleInput.addEventListener('change', updateQRCode);
     dotDensityInput.addEventListener('change', updateQRCode);
     
@@ -205,6 +220,9 @@ document.addEventListener('DOMContentLoaded', () => {
         bgColorValue.textContent = e.target.value;
         updateQRCode();
     });
+
+    // Initialize character counter
+    dataInput.dispatchEvent(new Event('input'));
 
     logoSizeInput.addEventListener('input', (e) => {
         logoSizeValue.textContent = Math.round(e.target.value * 100) + '%';
@@ -238,6 +256,50 @@ document.addEventListener('DOMContentLoaded', () => {
             await exportQrCode.download({ name: "qr-code", extension: "png" });
         } catch (e) {
             console.error('Download failed:', e);
+        }
+    });
+
+    copyPngBtn.addEventListener('click', async () => {
+        let copySize = parseInt(qrSizeInput.value) || 300;
+        if (copySize < 50) copySize = 50;
+        if (copySize > 3000) copySize = 3000;
+
+        const hasFrame = addFrameCheckbox.checked;
+        const targetMargin = hasFrame ? Math.floor(copySize * 0.08) : Math.floor(copySize * 0.04);
+        
+        const exportOptions = {
+            ...lastGeneratedOptions,
+            type: "canvas", 
+            width: copySize,
+            height: copySize,
+            margin: targetMargin
+        };
+
+        const copyQrCode = new QRCodeStyling(exportOptions);
+
+        try {
+            const blob = await copyQrCode.getRawData("png");
+            if (!blob) throw new Error("Could not extract PNG data");
+            
+            await navigator.clipboard.write([
+                new ClipboardItem({ "image/png": blob })
+            ]);
+            
+            // Visual feedback
+            const originalText = copyPngBtn.innerHTML;
+            copyPngBtn.innerHTML = `
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-green-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+                </svg>
+                <span class="text-green-600">Copied!</span>
+            `;
+            setTimeout(() => {
+                copyPngBtn.innerHTML = originalText;
+            }, 2000);
+            
+        } catch (e) {
+            console.error('Copy failed:', e);
+            alert("Could not copy image to clipboard. Please check browser permissions.");
         }
     });
 });
