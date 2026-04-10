@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Scan QR Code</title>
+  <link rel="stylesheet" href="popup.css">
+  <script src="qr-code-styling.js"></script>
+</head>
+<body>
+  <div class="header">
+    <span class="title">Scan QR Code</span>
+    <button class="close-btn" id="closeBtn" title="Close">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6L6 18M6 6l12 12"/></svg>
+    </button>
+  </div>
+
+  <div class="qr-wrapper">
+    <div id="qr-container"></div>
+  </div>
+
+  <div class="url-container">
+    <input type="text" id="urlInput" readonly>
+  </div>
+
+  <div class="footer">
+    <button class="icon-btn" id="infoBtn" title="Advanced settings">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="16" x2="12" y2="12"></line><line x1="12" y1="8" x2="12.01" y2="8"></line></svg>
+    </button>
+    <div class="actions">
+      <button id="copyBtn" class="btn btn-outline">Copy</button>
+      <button id="downloadBtn" class="btn btn-primary">Download</button>
+    </div>
+  </div>
+
+  <script src="popup.js"></script>
+</body>
+</html>

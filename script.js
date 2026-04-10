@@ -1,5 +1,15 @@
 document.addEventListener('DOMContentLoaded', () => {
     const dataInput = document.getElementById('data-input');
+    
+    // Parse URL parameters for initial input
+    const urlParams = new URLSearchParams(window.location.search);
+    const queryData = urlParams.get('text') || urlParams.get('url') || urlParams.get('q');
+    if (queryData) {
+        dataInput.value = queryData;
+    } else if (window.location.search.length > 1 && !window.location.search.includes('=')) {
+        dataInput.value = decodeURIComponent(window.location.search.substring(1));
+    }
+
     const charCount = document.getElementById('char-count');
     const qrContainer = document.getElementById('qr-preview-container');
     const downloadPngBtn = document.getElementById('download-png');
@@ -33,8 +43,8 @@ document.addEventListener('DOMContentLoaded', () => {
     // Default configuration for QR Code Styling
     const defaultOptions = {
         type: "svg",
-        width: 350,
-        height: 350,
+        width: 250,
+        height: 250,
         data: dataInput.value || "https://tr4n.github.io/qr-generator/",
         margin: 10,
         qrOptions: {
