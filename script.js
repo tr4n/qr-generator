@@ -42,7 +42,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Default configuration for QR Code Styling
     const defaultOptions = {
-        type: "svg",
+        type: "canvas", // Using canvas for better high-res raster embedding
         width: 350,
         height: 350,
         data: dataInput.value || "https://tr4n.github.io/qr-generator/",
@@ -115,7 +115,7 @@ document.addEventListener('DOMContentLoaded', () => {
         const marginPx = hasFrame ? Math.floor(size * 0.08) : Math.floor(size * 0.04); 
         
         const newOptions = {
-            type: "svg",
+            type: "canvas", // Using canvas for better high-res raster embedding
             data: text,
             width: size,
             height: size,
