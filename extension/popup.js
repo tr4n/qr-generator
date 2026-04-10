@@ -8,16 +8,17 @@ document.addEventListener('DOMContentLoaded', () => {
 
     let currentUrl = 'https://google.com';
     let qrCode = null;
+    let currentOptions = null;
 
     const generateQR = (text) => {
         if (qrCode) {
             qrContainer.innerHTML = '';
         }
 
-        const options = {
-            width: 250,
-            height: 250,
-            type: "svg",
+        currentOptions = {
+            width: 400,
+            height: 400,
+            type: "canvas", // Using canvas for better high-res raster embedding
             data: text,
             margin: 0,
             image: chrome.runtime.getURL("logo.png"),
@@ -44,11 +45,11 @@ document.addEventListener('DOMContentLoaded', () => {
             imageOptions: {
                 hideBackgroundDots: true,
                 imageSize: 0.45,
-                margin: 5
+                margin: 20
             }
         };
 
-        qrCode = new QRCodeStyling(options);
+        qrCode = new QRCodeStyling(currentOptions);
         qrCode.append(qrContainer);
     };
 
@@ -83,7 +84,18 @@ document.addEventListener('DOMContentLoaded', () => {
 
     copyBtn.addEventListener('click', async () => {
         try {
-            const blob = await qrCode.getRawData("png");
+            const exportOptions = {
+                ...currentOptions,
+                width: 400,
+                height: 400
+            };
+            exportOptions.imageOptions = {
+                ...currentOptions.imageOptions,
+                margin: 8 // scale margin for 400px (400/1000 * 20 = 8)
+            };
+            
+            const exportQrCode = new QRCodeStyling(exportOptions);
+            const blob = await exportQrCode.getRawData("png");
             if (!blob) throw new Error("Could not extract PNG data");
             
             await navigator.clipboard.write([
@@ -101,6 +113,16 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     downloadBtn.addEventListener('click', () => {
-        qrCode.download({ name: "qr-code", extension: "png" });
+        const exportOptions = {
+            ...currentOptions,
+            width: 400,
+            height: 400
+        };
+        exportOptions.imageOptions = {
+            ...currentOptions.imageOptions,
+            margin: 8
+        };
+        const exportQrCode = new QRCodeStyling(exportOptions);
+        exportQrCode.download({ name: "qr-code", extension: "png" });
     });
 });
