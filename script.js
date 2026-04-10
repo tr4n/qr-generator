@@ -43,8 +43,8 @@ document.addEventListener('DOMContentLoaded', () => {
     // Default configuration for QR Code Styling
     const defaultOptions = {
         type: "svg",
-        width: 250,
-        height: 250,
+        width: 350,
+        height: 350,
         data: dataInput.value || "https://tr4n.github.io/qr-generator/",
         margin: 10,
         qrOptions: {
