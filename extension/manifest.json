@@ -6,15 +6,15 @@
   "action": {
     "default_popup": "popup.html",
     "default_icon": {
-      "16": "logo.png",
-      "48": "logo.png",
-      "128": "logo.png"
+      "16": "ic_dabeeo.png",
+      "48": "ic_dabeeo.png",
+      "128": "ic_dabeeo.png"
     }
   },
   "icons": {
-    "16": "logo.png",
-    "48": "logo.png",
-    "128": "logo.png"
+    "16": "ic_dabeeo.png",
+    "48": "ic_dabeeo.png",
+    "128": "ic_dabeeo.png"
   },
   "permissions": [
     "activeTab",
