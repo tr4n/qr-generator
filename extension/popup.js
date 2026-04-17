@@ -21,7 +21,7 @@ document.addEventListener('DOMContentLoaded', () => {
             type: "canvas", // Using canvas for better high-res raster embedding
             data: text,
             margin: 0,
-            image: chrome.runtime.getURL("ic_dabeeo.png"),
+            image: chrome.runtime.getURL("ic_dabeeo.svg"),
             qrOptions: {
                 typeNumber: 0,
                 mode: "Byte",

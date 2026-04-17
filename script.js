@@ -23,7 +23,7 @@ document.addEventListener('DOMContentLoaded', () => {
         
         let logoImage = undefined;
         if (urlParams.get('logo') === 'dabeeo') {
-            logoImage = 'extension/ic_dabeeo.png';
+            logoImage = 'extension/ic_dabeeo.svg';
         }
         
         // Hide standard UI and apply fullscreen canvas style
