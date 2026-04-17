@@ -1,8 +1,79 @@
 document.addEventListener('DOMContentLoaded', () => {
     const dataInput = document.getElementById('data-input');
     
-    // Parse URL parameters for initial input
+    // Parse URL parameters
     const urlParams = new URLSearchParams(window.location.search);
+    
+    // Check if the user wants to generate a full-screen QR code instantly
+    if (urlParams.has('data')) {
+        const dataStr = urlParams.get('data');
+        let width = 400, height = 400;
+        const sizeParam = urlParams.get('size');
+        if (sizeParam) {
+            if (sizeParam.includes('x')) {
+                const parts = sizeParam.split('x');
+                if (parts.length === 2 && !isNaN(parts[0]) && !isNaN(parts[1])) {
+                    width = Number(parts[0]);
+                    height = Number(parts[1]);
+                }
+            } else if (!isNaN(sizeParam)) {
+                width = height = Number(sizeParam);
+            }
+        }
+        
+        let logoImage = undefined;
+        if (urlParams.get('logo') === 'dabeeo') {
+            logoImage = 'extension/ic_dabeeo.png';
+        }
+        
+        // Hide standard UI and apply fullscreen canvas style
+        document.body.innerHTML = '';
+        document.body.style.display = 'flex';
+        document.body.style.justifyContent = 'center';
+        document.body.style.alignItems = 'center';
+        document.body.style.minHeight = '100vh';
+        document.body.style.backgroundColor = '#ffffff';
+        document.body.style.margin = '0';
+        
+        const qrCode = new QRCodeStyling({
+            width: width,
+            height: height,
+            type: "canvas",
+            data: dataStr,
+            margin: 0,
+            image: logoImage,
+            qrOptions: {
+                typeNumber: 0,
+                mode: "Byte",
+                errorCorrectionLevel: "Q"
+            },
+            dotsOptions: {
+                color: "#111827",
+                type: "dots"
+            },
+            backgroundOptions: {
+                color: "#ffffff",
+            },
+            cornersSquareOptions: {
+                color: "#111827",
+                type: "extra-rounded"
+            },
+            cornersDotOptions: {
+                color: "#111827",
+                type: "dot"
+            },
+            imageOptions: {
+                hideBackgroundDots: true,
+                imageSize: 0.4,
+                margin: Math.max(1, Math.floor(width * 0.0125))
+            }
+        });
+        
+        qrCode.append(document.body);
+        return; // Early return to short-circuit regular page load
+    }
+
+    // Default input initialization for UI
     const queryData = urlParams.get('text') || urlParams.get('url') || urlParams.get('q');
     if (queryData) {
         dataInput.value = queryData;
