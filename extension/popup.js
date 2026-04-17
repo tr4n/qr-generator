@@ -25,7 +25,7 @@ document.addEventListener('DOMContentLoaded', () => {
             qrOptions: {
                 typeNumber: 0,
                 mode: "Byte",
-                errorCorrectionLevel: "M"
+                errorCorrectionLevel: "Q"
             },
             dotsOptions: {
                 color: "#111827",
@@ -44,7 +44,7 @@ document.addEventListener('DOMContentLoaded', () => {
             },
             imageOptions: {
                 hideBackgroundDots: true,
-                imageSize: 0.9,
+                imageSize: 0.4,
                 margin: 5
             }
         };
