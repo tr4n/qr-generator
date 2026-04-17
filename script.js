@@ -38,7 +38,7 @@ document.addEventListener('DOMContentLoaded', () => {
         const qrCode = new QRCodeStyling({
             width: width,
             height: height,
-            type: "canvas",
+            type: "svg",
             data: dataStr,
             margin: 0,
             image: logoImage,
@@ -113,7 +113,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Default configuration for QR Code Styling
     const defaultOptions = {
-        type: "canvas", // Using canvas for better high-res raster embedding
+        type: "svg", // Use svg for better cross-platform compatibility (e.g. Windows LG Gram scaling issues)
         width: 350,
         height: 350,
         data: dataInput.value || "https://tr4n.github.io/qr-generator/",
@@ -186,7 +186,7 @@ document.addEventListener('DOMContentLoaded', () => {
         const marginPx = hasFrame ? Math.floor(size * 0.08) : Math.floor(size * 0.04); 
         
         const newOptions = {
-            type: "canvas", // Using canvas for better high-res raster embedding
+            type: "svg", // Use svg for better cross-platform compatibility (e.g. Windows LG Gram scaling issues)
             data: text,
             width: size,
             height: size,
