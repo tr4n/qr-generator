@@ -23,7 +23,7 @@ document.addEventListener('DOMContentLoaded', () => {
         
         let logoImage = undefined;
         if (urlParams.get('logo') === 'dabeeo') {
-            logoImage = 'extension/ic_dabeeo.svg';
+            logoImage = 'extension/ic_dabeeo_3d.svg';
         }
         
         // Hide standard UI and apply fullscreen canvas style
@@ -313,6 +313,21 @@ document.addEventListener('DOMContentLoaded', () => {
     addFrameCheckbox.addEventListener('change', updateQRCode);
     hideBgDotsCheckbox.addEventListener('change', updateQRCode);
 
+    const getBase64ImageFromUrl = async (imageUrl) => {
+        try {
+            const res = await fetch(imageUrl);
+            const blob = await res.blob();
+            return new Promise((resolve) => {
+                const reader = new FileReader();
+                reader.onloadend = () => resolve(reader.result);
+                reader.readAsDataURL(blob);
+            });
+        } catch (e) {
+            console.error("Fetch base64 logo failed:", e);
+            return imageUrl;
+        }
+    };
+
     downloadPngBtn.addEventListener('click', async () => {
         let downloadSize = parseInt(qrSizeInput.value) || 300;
         if (downloadSize < 50) downloadSize = 50;
@@ -321,22 +336,69 @@ document.addEventListener('DOMContentLoaded', () => {
         const hasFrame = addFrameCheckbox.checked;
         const targetMargin = hasFrame ? Math.floor(downloadSize * 0.08) : Math.floor(downloadSize * 0.04);
         
-        // Use a pristine, standalone canvas instance strictly for high-res export
-        // This eliminates fractional pixel smudging from UI updates
+        // Use SVG type to ensure precise geometry generation and avoid Windows 2D Canvas bugs
         const exportOptions = {
             ...lastGeneratedOptions,
-            type: "canvas", 
+            type: "svg", 
             width: downloadSize,
             height: downloadSize,
             margin: targetMargin
         };
 
+        if (exportOptions.image && !exportOptions.image.startsWith('data:')) {
+            exportOptions.image = await getBase64ImageFromUrl(exportOptions.image);
+        }
+
         const exportQrCode = new QRCodeStyling(exportOptions);
 
         try {
-            await exportQrCode.download({ name: "qr-code", extension: "png" });
+            // Convert SVG to PNG locally
+            const svgBlob = await exportQrCode.getRawData("svg");
+            if (!svgBlob) throw new Error("SVG generation failed");
+
+            const url = URL.createObjectURL(svgBlob);
+            const img = new Image();
+            img.crossOrigin = "anonymous";
+            
+            await new Promise((resolve, reject) => {
+                img.onload = resolve;
+                img.onerror = () => reject(new Error("Failed to load SVG into memory"));
+                img.src = url;
+            });
+            
+            const canvas = document.createElement("canvas");
+            canvas.width = downloadSize;
+            canvas.height = downloadSize;
+            const ctx = canvas.getContext("2d");
+            
+            // Fill background color
+            ctx.fillStyle = exportOptions.backgroundOptions?.color || "#ffffff";
+            ctx.fillRect(0, 0, downloadSize, downloadSize);
+            
+            // Draw exact SVG vector to canvas directly mapping pixels
+            ctx.drawImage(img, 0, 0, downloadSize, downloadSize);
+            URL.revokeObjectURL(url);
+            
+            const pngDataUrl = canvas.toDataURL("image/png");
+            
+            // Trigger download manually
+            const a = document.createElement("a");
+            a.download = "qr-code.png";
+            a.href = pngDataUrl;
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+
         } catch (e) {
-            console.error('Download failed:', e);
+            console.error('Client-side SVG->PNG download failed, attempting fallback:', e);
+            try {
+                // Fallback to internal canvas PNG export
+                exportOptions.type = "canvas";
+                const fallbackQr = new QRCodeStyling(exportOptions);
+                await fallbackQr.download({ name: "qr-code", extension: "png" });
+            } catch (fallbackError) {
+                console.error("Fallback failed:", fallbackError);
+            }
         }
     });
 
@@ -350,23 +412,20 @@ document.addEventListener('DOMContentLoaded', () => {
         
         const exportOptions = {
             ...lastGeneratedOptions,
-            type: "canvas", 
+            type: "svg", 
             width: copySize,
             height: copySize,
             margin: targetMargin
         };
 
-        const copyQrCode = new QRCodeStyling(exportOptions);
+        if (exportOptions.image && !exportOptions.image.startsWith('data:')) {
+            exportOptions.image = await getBase64ImageFromUrl(exportOptions.image);
+        }
 
-        try {
-            const blob = await copyQrCode.getRawData("png");
-            if (!blob) throw new Error("Could not extract PNG data");
-            
-            await navigator.clipboard.write([
-                new ClipboardItem({ "image/png": blob })
-            ]);
-            
-            // Visual feedback
+        const copyQrCode = new QRCodeStyling(exportOptions);
+        
+        // Ensure Visual Feedback Function
+        const showSuccessFeedback = () => {
             const originalText = copyPngBtn.innerHTML;
             copyPngBtn.innerHTML = `
                 <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-green-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -377,10 +436,61 @@ document.addEventListener('DOMContentLoaded', () => {
             setTimeout(() => {
                 copyPngBtn.innerHTML = originalText;
             }, 2000);
+        };
+
+        try {
+            const svgBlob = await copyQrCode.getRawData("svg");
+            if (!svgBlob) throw new Error("SVG generation failed");
+
+            const url = URL.createObjectURL(svgBlob);
+            const img = new Image();
+            img.crossOrigin = "anonymous";
             
+            await new Promise((resolve, reject) => {
+                img.onload = resolve;
+                img.onerror = () => reject(new Error("Failed to load SVG into memory"));
+                img.src = url;
+            });
+            
+            const canvas = document.createElement("canvas");
+            canvas.width = copySize;
+            canvas.height = copySize;
+            const ctx = canvas.getContext("2d");
+            ctx.fillStyle = exportOptions.backgroundOptions?.color || "#ffffff";
+            ctx.fillRect(0, 0, copySize, copySize);
+            ctx.drawImage(img, 0, 0, copySize, copySize);
+            URL.revokeObjectURL(url);
+            
+            canvas.toBlob(async (blob) => {
+                if (!blob) throw new Error("Could not extract PNG data");
+                try {
+                    await navigator.clipboard.write([
+                        new ClipboardItem({ "image/png": blob })
+                    ]);
+                    showSuccessFeedback();
+                } catch(err) {
+                    console.error('Clipboard write failed:', err);
+                    alert("Could not copy image to clipboard. Please check browser permissions.");
+                }
+            }, "image/png");
+
         } catch (e) {
-            console.error('Copy failed:', e);
-            alert("Could not copy image to clipboard. Please check browser permissions.");
+            console.error('Custom SVG->PNG copy failed, attempting fallback...', e);
+            try {
+                // Fallback to internal canvas processing
+                exportOptions.type = "canvas";
+                const fallbackQrCode = new QRCodeStyling(exportOptions);
+                const blob = await fallbackQrCode.getRawData("png");
+                if (!blob) throw new Error("Could not extract PNG data via fallback");
+                
+                await navigator.clipboard.write([
+                    new ClipboardItem({ "image/png": blob })
+                ]);
+                showSuccessFeedback();
+            } catch (fallbackError) {
+                console.error("Fallback Copy failed:", fallbackError);
+                alert("Could not copy image to clipboard. Processing error.");
+            }
         }
     });
 });
