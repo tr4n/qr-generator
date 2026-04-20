@@ -72,13 +72,22 @@
     <script>
         document.addEventListener('DOMContentLoaded', async () => {
             const urlParams = new URLSearchParams(window.location.search);
+            
+            let queryUpdated = false;
             if (!urlParams.has('data')) {
-                document.getElementById('qr-container').innerHTML = '<p class="text-gray-500 font-medium text-sm">No data provided.</p>';
-                return;
+                urlParams.set('data', window.location.href);
+                queryUpdated = true;
+            }
+            if (!urlParams.has('size')) {
+                urlParams.set('size', '320x320');
+                queryUpdated = true;
+            }
+            if (queryUpdated) {
+                window.history.replaceState({}, '', `${window.location.pathname}?${urlParams.toString()}`);
             }
 
             const dataStr = urlParams.get('data');
-            let width = 400, height = 400;
+            let width = 320, height = 320;
             const sizeParam = urlParams.get('size');
             if (sizeParam) {
                 if (sizeParam.includes('x')) {
