@@ -1,11 +1,11 @@
-document.addEventListener('DOMContentLoaded', () => {
+document.addEventListener('DOMContentLoaded', async () => {
     const dataInput = document.getElementById('data-input');
     
     // Parse URL parameters
     const urlParams = new URLSearchParams(window.location.search);
 
     // Default input initialization for UI
-    const queryData = urlParams.get('text') || urlParams.get('url') || urlParams.get('q');
+    const queryData = urlParams.get('data') || urlParams.get('text') || urlParams.get('url') || urlParams.get('q');
     if (queryData) {
         dataInput.value = queryData;
     } else if (window.location.search.length > 1 && !window.location.search.includes('=')) {
@@ -42,6 +42,40 @@ document.addEventListener('DOMContentLoaded', () => {
     let currentLogoImage = null;
     let lastGeneratedOptions = null;
 
+    // Handle URL parameters for size and logo
+    const sizeParam = urlParams.get('size');
+    if (sizeParam) {
+        if (sizeParam.includes('x')) {
+            const parts = sizeParam.split('x');
+            if (parts.length === 2 && !isNaN(parts[0]) && !isNaN(parts[1])) {
+                qrSizeInput.value = Number(parts[0]);
+            }
+        } else if (!isNaN(sizeParam)) {
+            qrSizeInput.value = Number(sizeParam);
+        }
+    }
+
+    const logoParam = urlParams.get('logo');
+    if (logoParam === 'dabeeo') {
+        currentLogoImage = 'data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxMjgiIGhlaWdodD0iMTI4IiB2aWV3Qm94PSIwIDAgMTYgMTYiIGZpbGw9Im5vbmUiPgogIDxwYXRoIGQ9Ik0xLjAxNTYyIDMuOTk3MjdWMTEuOTkxOEw3Ljk3NjEyIDE1Ljk4OTFMMTQuOTM2NiAxMS45OTE4VjMuOTk3MjdMNy45NzYxMiAwTDEuMDE1NjIgMy45OTcyN1oiIGZpbGw9IndoaXRlIi8+CiAgPHBhdGggZD0iTTMuMTg3NSAxMC43ODk0VjUuMzA1NDZMNy45NjI3NyAyLjU2MzQ4TDEyLjczOCA1LjMwNTQ2VjEwLjc4OTRMNy45NjI3NyAxMy41MzE0TDMuMTg3NSAxMC43ODk0WiIgZmlsbD0iIzRCNkNDQiIvPgogIDxwYXRoIGQ9Ik03Ljk2Mjc3IDEzLjUzMTNMMTIuNzM4IDEwLjc4OTNMNy45NjI3NyA4LjQwODA4TDMuMTg3NSAxMC43ODkzTDcuOTYyNzcgMTMuNTMxM1oiIGZpbGw9IiMxOTNGOEUiLz4KICA8cGF0aCBkPSJNMSAzLjk5NzI3TDMuMTg1MjIgNS4yNTI1Nkw3Ljk2MDUgMi41MTA2TDEyLjczNTggNS4yNTI1NkwxNC45MjEgMy45OTcyN0w3Ljk2MDUgMEwxIDMuOTk3MjdaIiBmaWxsPSIjRENFN0Y0Ii8+CiAgPHBhdGggZD0iTTcuOTc2NTYgMTMuNDg5NFYxNkwxNC45MzcgMTIuMDAyN1Y0LjAwODE4TDEyLjc1MTggNS4yNjM0N1YxMC43NDc0TDcuOTc2NTYgMTMuNDg5NFoiIGZpbGw9IiNDNUNDRDYiLz4KICA8cGF0aCBkPSJNMTIuNzM2MiAxMC43ODk0TDcuOTYwOTQgOC40MDgxNlYyLjU2MzQ4TDEyLjczNjIgNS4zMDU0NlYxMC43ODk0WiIgZmlsbD0iIzFFNTdEQyIvPgogIDxwYXRoIGQ9Ik0xMC4zOTExIDguNzQzM0MxMC4zOTExIDkuMzQwODkgOS45MDIwNyA5LjgyNzM1IDkuMzAxMjggOS44MjczNUM4LjcwMDQ3IDkuODI3MzUgOC4yMTE0IDkuMzQwODkgOC4yMTE0IDguNzQzM0M4LjIxMTQgOC4xNDU3MyA4LjcwMDQ3IDcuNjU5MjcgOS4zMDEyOCA3LjY1OTI3VjcuMDc2MjdDOS4yNjQ2MyA3LjA3NjI3IDkuMjI5ODQgNy4wNzk5IDkuMTk1MDMgNy4wODE3M0M5LjAxMDAyIDcuMDc5OSA4Ljg1OTg0IDYuOTMwNTIgOC44NTk4NCA2Ljc0NjVDOC44NTk4NCA2LjU2MjQ5IDkuMDEwMDIgNi40MTMxIDkuMTk1MDMgNi40MTMxQzkuMzgwMDQgNi40MTMxIDkuNTMwMjMgNi41NjI0OSA5LjUzMDIzIDYuNzQ2NUgxMC4xMTY0QzEwLjExNjQgNi4yNDAwMiA5LjcwMjQyIDUuODMwMDggOS4xOTUwMyA1LjgzMDA4QzguNjg3NjUgNS44MzAwOCA4LjI3MzY5IDYuMjQxODMgOC4yNzM2OSA2Ljc0NjVDOC4yNzM2OSA2Ljk1NjAxIDguMzQ1MTEgNy4xNDczMiA4LjQ2NDE4IDcuMzAyMTlDNy45NjQxMiA3LjU5MDA1IDcuNjI1MjcgOC4xMjkzNCA3LjYyNTI3IDguNzQ1MTNDNy42MjUyNyA5LjM2MDk0IDcuMTM2MiA5LjgyOTE4IDYuNTM1MzkgOS44MjkxOEM1LjkzNDU5IDkuODI5MTggNS40NDU1MiA5LjM0MjcyIDUuNDQ1NTIgOC43NDUxM0M1LjQ0NTUyIDguMTQ3NTYgNS45MzQ1OSA3LjY2MTEgNi41MzUzOSA3LjY2MTFWNy4wNzgwOUM2LjQ5ODc1IDcuMDc4MDkgNi40NjM5NSA3LjA4MTczIDYuNDI5MTYgNy4wODM1NkM2LjI0NDE1IDcuMDgxNzMgNi4wOTM5NCA2LjkzMjM1IDYuMDkzOTQgNi43NDgzM0M2LjA5Mzk0IDYuNTY0MzEgNi4yNDQxNSA2LjQxNDkxIDYuNDI5MTYgNi40MTQ5MUM2LjYxNDE1IDYuNDE0OTEgNi43NjQzNSA2LjU2NDMxIDYuNzY0MzUgNi43NDgzM0g3LjM1MDVDNy4zNTA1IDYuMjQxODQgNi45MzY1NCA1LjgzMTkxIDYuNDI5MTYgNS44MzE5MUM1LjkyMTc3IDUuODMxOTEgNS41MDc4IDYuMjQzNjUgNS41MDc4IDYuNzQ4MzNDNS41MDc4IDYuOTU3ODQgNS41NzkyNCA3LjE0OTE1IDUuNjk4MyA3LjMwNEM1LjE5ODI0IDcuNTkxODcgNC44NTkzOCA4LjEzMTE1IDQuODU5MzggOC43NDY5NkM0Ljg1OTM4IDkuNjY3MDIgNS42MTIyMiAxMC40MTQgNi41MzUzOSAxMC40MTRDNy4xMDg3MSAxMC40MTQgNy42MTYxIDEwLjEyNjEgNy45MTgzMyA5LjY4NzA3QzguMjIwNTcgMTAuMTI2MSA4LjcyNzk1IDEwLjQxNCA5LjMwMTI4IDEwLjQxNEMxMC4yMjYzIDEwLjQxNCAxMC45NzczIDkuNjY1MTkgMTAuOTc3MyA4Ljc0Njk2SDEwLjM5MTFWOC43NDMzWiIgZmlsbD0id2hpdGUiLz4KPC9zdmc+Cg==';
+        logoFileName.textContent = 'dabeeo.svg';
+        fileNameDisplay.classList.remove('hidden');
+    } else if (logoParam) {
+        const isValidImage = await new Promise((resolve) => {
+            const img = new Image();
+            img.onload = () => resolve(true);
+            img.onerror = () => resolve(false);
+            img.src = logoParam;
+        });
+        if (isValidImage) {
+            currentLogoImage = logoParam;
+            logoFileName.textContent = 'Custom Logo';
+            fileNameDisplay.classList.remove('hidden');
+        } else {
+            console.warn("Provided logo image is invalid or inaccessible, ignoring logo.");
+        }
+    }
+
     // Default configuration for QR Code Styling
     const defaultOptions = {
         type: "svg", // Use svg for better cross-platform compatibility (e.g. Windows LG Gram scaling issues)
@@ -49,6 +83,7 @@ document.addEventListener('DOMContentLoaded', () => {
         height: 350,
         data: dataInput.value || "https://tr4n.github.io/qr-generator/",
         margin: 10,
+        image: currentLogoImage || "",
         qrOptions: {
             typeNumber: 0,
             mode: "Byte",
