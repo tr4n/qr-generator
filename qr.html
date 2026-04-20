@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -35,18 +36,26 @@
         }
     </style>
 </head>
+
 <body class="antialiased text-gray-800">
-    <div id="qr-container" class="bg-white p-4 rounded-2xl shadow-sm border border-gray-100 flex justify-center items-center"></div>
+    <div id="qr-container"
+        class="bg-white p-4 rounded-2xl shadow-sm border border-gray-100 flex justify-center items-center"></div>
     <div class="flex gap-4 w-full px-4" id="button-container" style="max-width: 300px; display: none;">
-        <button id="download-btn" class="flex-1 bg-primary hover:bg-indigo-700 text-white font-medium py-3 px-4 rounded-xl transition-colors flex justify-center items-center gap-2 shadow-sm hover:shadow-md text-sm">
-            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
+        <button id="download-btn"
+            class="flex-1 bg-primary hover:bg-indigo-700 text-white font-medium py-3 px-4 rounded-xl transition-colors flex justify-center items-center gap-2 shadow-sm hover:shadow-md text-sm">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24"
+                stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                    d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
             </svg>
             Download
         </button>
-        <button id="copy-btn" class="flex-1 bg-white hover:bg-gray-50 text-gray-800 border border-gray-200 font-medium py-3 px-4 rounded-xl transition-colors flex justify-center items-center gap-2 shadow-sm hover:shadow-md text-sm">
-            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z" />
+        <button id="copy-btn"
+            class="flex-1 bg-white hover:bg-gray-50 text-gray-800 border border-gray-200 font-medium py-3 px-4 rounded-xl transition-colors flex justify-center items-center gap-2 shadow-sm hover:shadow-md text-sm">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24"
+                stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                    d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z" />
             </svg>
             Copy
         </button>
@@ -74,12 +83,12 @@
                     width = height = Number(sizeParam);
                 }
             }
-            
+
             let logoImage = undefined;
             const logoParam = urlParams.get('logo');
             // Fully embed the base64 SVG so it never fails on file:// or strict CORS environments
             if (logoParam === 'dabeeo') {
-                logoImage = 'data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAxNiAxNiIgZmlsbD0ibm9uZSI+CiAgPHBhdGggZD0iTTEuMDE1NjIgMy45OTcyN1YxMS45OTE4TDcuOTc2MTIgMTUuOTg5MUwxNC45MzY2IDExLjk5MThWMy45OTcyN0w3Ljk3NjEyIDBMMS4wMTU2MiAzLjk5NzI3WiIgZmlsbD0id2hpdGUiLz4KICA8cGF0aCBkPSJNMy4xODc1IDEwLjc4OTRWNS4zMDU0Nkw3Ljk2Mjc3IDIuNTYzNDhMMTIuNzM4IDUuMzA1NDZWMTAuNzg5NEw3Ljk2Mjc3IDEzLjUzMTRMMy4xODc1IDEwLjc4OTRaIiBmaWxsPSIjNEI2Q0NCIi8+CiAgPHBhdGggZD0iTTcuOTYyNzcgMTMuNTMxM0wxMi43MzggMTAuNzg5M0w3Ljk2Mjc3IDguNDA4MDhMMy4xODc1IDEwLjc4OTMwNy45NjI3NyAxMy41MzEzWiIgZmlsbD0iIzE5M0Y4RSIvPgogIDxwYXRoIGQ9Ik0xIDMuOTk3MjdMMy4xODUyMiA1LjI1MjU2TDcuOTYwNSAyLjUxMDZMMTIuNzM1OCA1LjI1MjU2TDE0LjkyMSAzLjk5NzI3TDcuOTYwNSAwTDEgMy45OTcyN1oiIGZpbGw9IiNEQ0U3RjQiLz4KICA8cGF0aCBkPSJNNy45NzY1NiAxMy40ODk0VjE2TDE0LjkzNyAxMi4wMDI3VjQuMDA4MThMMTIuNzUxOCA1LjI2MzQ3VjEwLjc0NzRMNy45NzY1NiAxMy40ODk0WiIgZmlsbD0iI0M1Q0NENiIvPgogIDxwYXRoIGQ9Ik0xMi43MzYyIDEwLjc4OTRMNy45NjA5NCA4LjQwODE2VjIuNTYzNDhMMTIuNzM2MiA1LjMwNTQ2VjEwLjc4OTRaIiBmaWxsPSIjMUU1N0RDIi8+CiAgPHBhdGggZD0iTTEwLjM5MTEgOC43NDMzQzEwLjM5MTEgOS4zNDA4OSA5LjkwMjA3IDkuODI3MzUgOS4zMDEyOCA5LjgyNzM1QzguNzAwNDcgOS44MjczNSA4LjIxMTQgOS4zNDA4OSA4LjIxMTQgOC43NDMzQzguMjExNCA4LjE0NTczIDguNzAwNDcgNy42NTkyNyA5LjMwMTI4IDcuNjU5MjdWNy4wNzYyN0M5LjI2NDYzIDcuMDc2MjcgOS4yMjk4NCA3LjA3OTkgOS4xOTUwMyA3LjA4MTczQzkuMDEwMDIgNy4wNzk5IDguODU5ODQgNi45MzA1MiA4Ljg1OTg0IDYuNzQ2NUM4Ljg1OTg0IDYuNTYyNDkgOS4wMTAwMiA2LjQxMzEgOS4xOTUwMyA2LjQxMzFDOS4zODAwNCA2LjQxMzEgOS41MzAyMyA2LjU2MjQ5IDkuNTMwMjMgNi43NDY1SDEwLjExNjRDMTAuMTE2NCA2LjI0MDAyIDkuNzAyNDIgNS44MzAwOCA5LjE5NTAzIDUuODMwMDhDOC42ODc2NSA1LjgzMDA4IDguMjczNjkgNi4yNDE4MyA4LjI3MzY5IDYuNzQ2NUM4Ljg1OTg0IDYuOTU2MDEgOC4zNDUxMSA3LjE0NzMyIDguNDY0MTggNy4zMDIxOUM3Ljk2NDEyIDcuNTkwMDUgNy42MjUyNyA4LjEyOTM0IDcuNjI1MjcgOC43NDUxM0M3LjYyNTI3IDkuMzYwOTQgNy4xMzYyIDkuODI5MTggNi41MzUzOSA5LjgyOTE4QzUuOTM0NTkgOS44MjkxOCA1LjQ0NTUyIDkuMzQyNzIgNS40NDU1MiA4Ljc0NTEzQzUuNDQ1NTIgOC4xNDc1NiA1LjkzNDU5IDcuNjYxMSA2LjUzNTM5IDcuNjYxMVY3LjA3ODA5QzYuNDk4NzUgNy4wNzgwOSA2LjQ2Mzk1IDcuMDgxNzMgNi40MjkxNiA3LjA4MzU2QzYuMjQ0MTUgNy4wODE3MyA2LjA5Mzk0IDYuOTMyMzUgNi4wOTM5NCA2Ljc0ODMzQzYuMDkzOTQgNi41NjQzMSA2LjI0NDE1IDYuNDE0OTEgNi40MjkxNiA2LjQxNDkxQzYuNjE0MTUgNi40MTQ5MSA2Ljc2NDM1IDYuNTY0MzEgNi43NjQzNSA2Ljc0ODMzSDcuMzUwNUM3LjM1MDUgNi4yNDE4NCA2LjkzNjU0IDUuODMxOTEgNi40MjkxNiA1LjgzMTkxQzUuOTIxNzcgNS44MzE5MSA1LjUwNzggNi4yNDM2NSA1LjUwNzggNi43NDgzM0M1LjUwNzggNi45NTc4NCA1LjU3OTI0IDcuMTQ5MTUgNS42OTgzIDcuMzA0QzUuMTk4MjQgNy41OTE4NyA0Ljg1OTM4IDguMTMxMTUgNC44NTkzOCA4Ljc0Njk2QzQuODU5MzggOS42NjcwMiA1LjExMjIyIDEwLjQxNCA2LjUzNTM5IDEwLjQxNEM3LjEwODcxIDEwLjQxNCA3LjYxNjEgMTAuMTI2MSA3LjkxODMzIDkuNjg3MDdDOC4yMjA1NyAxMC4xMjYxIDguNzI3OTUgMTAuNDE0IDkuMzAxMjggMTAuNDE0QzEwLjIyNjMgMTAuNDE0IDEwLjk3NzMgOS42NjUxOSAxMC45NzczIDguNzQ2OTZIMTAuMzkxMVY4Ljc0MzNaIiBmaWxsPSJ3aGl0ZSIvPgo8L3N2Zz4K';
+                logoImage = 'data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxMjgiIGhlaWdodD0iMTI4IiB2aWV3Qm94PSIwIDAgMTYgMTYiIGZpbGw9Im5vbmUiPgogIDxwYXRoIGQ9Ik0xLjAxNTYyIDMuOTk3MjdWMTEuOTkxOEw3Ljk3NjEyIDE1Ljk4OTFMMTQuOTM2NiAxMS45OTE4VjMuOTk3MjdMNy45NzYxMiAwTDEuMDE1NjIgMy45OTcyN1oiIGZpbGw9IndoaXRlIi8+CiAgPHBhdGggZD0iTTMuMTg3NSAxMC43ODk0VjUuMzA1NDZMNy45NjI3NyAyLjU2MzQ4TDEyLjczOCA1LjMwNTQ2VjEwLjc4OTRMNy45NjI3NyAxMy41MzE0TDMuMTg3NSAxMC43ODk0WiIgZmlsbD0iIzRCNkNDQiIvPgogIDxwYXRoIGQ9Ik03Ljk2Mjc3IDEzLjUzMTNMMTIuNzM4IDEwLjc4OTNMNy45NjI3NyA4LjQwODA4TDMuMTg3NSAxMC43ODkzTDcuOTYyNzcgMTMuNTMxM1oiIGZpbGw9IiMxOTNGOEUiLz4KICA8cGF0aCBkPSJNMSAzLjk5NzI3TDMuMTg1MjIgNS4yNTI1Nkw3Ljk2MDUgMi41MTA2TDEyLjczNTggNS4yNTI1NkwxNC45MjEgMy45OTcyN0w3Ljk2MDUgMEwxIDMuOTk3MjdaIiBmaWxsPSIjRENFN0Y0Ii8+CiAgPHBhdGggZD0iTTcuOTc2NTYgMTMuNDg5NFYxNkwxNC45MzcgMTIuMDAyN1Y0LjAwODE4TDEyLjc1MTggNS4yNjM0N1YxMC43NDc0TDcuOTc2NTYgMTMuNDg5NFoiIGZpbGw9IiNDNUNDRDYiLz4KICA8cGF0aCBkPSJNMTIuNzM2MiAxMC43ODk0TDcuOTYwOTQgOC40MDgxNlYyLjU2MzQ4TDEyLjczNjIgNS4zMDU0NlYxMC43ODk0WiIgZmlsbD0iIzFFNTdEQyIvPgogIDxwYXRoIGQ9Ik0xMC4zOTExIDguNzQzM0MxMC4zOTExIDkuMzQwODkgOS45MDIwNyA5LjgyNzM1IDkuMzAxMjggOS44MjczNUM4LjcwMDQ3IDkuODI3MzUgOC4yMTE0IDkuMzQwODkgOC4yMTE0IDguNzQzM0M4LjIxMTQgOC4xNDU3MyA4LjcwMDQ3IDcuNjU5MjcgOS4zMDEyOCA3LjY1OTI3VjcuMDc2MjdDOS4yNjQ2MyA3LjA3NjI3IDkuMjI5ODQgNy4wNzk5IDkuMTk1MDMgNy4wODE3M0M5LjAxMDAyIDcuMDc5OSA4Ljg1OTg0IDYuOTMwNTIgOC44NTk4NCA2Ljc0NjVDOC44NTk4NCA2LjU2MjQ5IDkuMDEwMDIgNi40MTMxIDkuMTk1MDMgNi40MTMxQzkuMzgwMDQgNi40MTMxIDkuNTMwMjMgNi41NjI0OSA5LjUzMDIzIDYuNzQ2NUgxMC4xMTY0QzEwLjExNjQgNi4yNDAwMiA5LjcwMjQyIDUuODMwMDggOS4xOTUwMyA1LjgzMDA4QzguNjg3NjUgNS44MzAwOCA4LjI3MzY5IDYuMjQxODMgOC4yNzM2OSA2Ljc0NjVDOC4yNzM2OSA2Ljk1NjAxIDguMzQ1MTEgNy4xNDczMiA4LjQ2NDE4IDcuMzAyMTlDNy45NjQxMiA3LjU5MDA1IDcuNjI1MjcgOC4xMjkzNCA3LjYyNTI3IDguNzQ1MTNDNy42MjUyNyA5LjM2MDk0IDcuMTM2MiA5LjgyOTE4IDYuNTM1MzkgOS44MjkxOEM1LjkzNDU5IDkuODI5MTggNS40NDU1MiA5LjM0MjcyIDUuNDQ1NTIgOC43NDUxM0M1LjQ0NTUyIDguMTQ3NTYgNS45MzQ1OSA3LjY2MTEgNi41MzUzOSA3LjY2MTFWNy4wNzgwOUM2LjQ5ODc1IDcuMDc4MDkgNi40NjM5NSA3LjA4MTczIDYuNDI5MTYgNy4wODM1NkM2LjI0NDE1IDcuMDgxNzMgNi4wOTM5NCA2LjkzMjM1IDYuMDkzOTQgNi43NDgzM0M2LjA5Mzk0IDYuNTY0MzEgNi4yNDQxNSA2LjQxNDkxIDYuNDI5MTYgNi40MTQ5MUM2LjYxNDE1IDYuNDE0OTEgNi43NjQzNSA2LjU2NDMxIDYuNzY0MzUgNi43NDgzM0g3LjM1MDVDNy4zNTA1IDYuMjQxODQgNi45MzY1NCA1LjgzMTkxIDYuNDI5MTYgNS44MzE5MUM1LjkyMTc3IDUuODMxOTEgNS41MDc4IDYuMjQzNjUgNS41MDc4IDYuNzQ4MzNDNS41MDc4IDYuOTU3ODQgNS41NzkyNCA3LjE0OTE1IDUuNjk4MyA3LjMwNEM1LjE5ODI0IDcuNTkxODcgNC44NTkzOCA4LjEzMTE1IDQuODU5MzggOC43NDY5NkM0Ljg1OTM4IDkuNjY3MDIgNS42MTIyMiAxMC40MTQgNi41MzUzOSAxMC40MTRDNy4xMDg3MSAxMC40MTQgNy42MTYxIDEwLjEyNjEgNy45MTgzMyA5LjY4NzA3QzguMjIwNTcgMTAuMTI2MSA4LjcyNzk1IDEwLjQxNCA5LjMwMTI4IDEwLjQxNEMxMC4yMjYzIDEwLjQxNCAxMC45NzczIDkuNjY1MTkgMTAuOTc3MyA4Ljc0Njk2SDEwLjM5MTFWOC43NDMzWiIgZmlsbD0id2hpdGUiLz4KPC9zdmc+Cg==';
             } else if (logoParam) {
                 const isValidImage = await new Promise((resolve) => {
                     const img = new Image();
@@ -159,13 +168,13 @@
                     const url = URL.createObjectURL(svgBlob);
                     const img = new Image();
                     // We don't set crossOrigin anonymous here for data URI blob exports to preserve file:// protocol compatibility
-                    
+
                     await new Promise((resolve, reject) => {
                         img.onload = resolve;
                         img.onerror = () => reject(new Error("Failed to load SVG into memory"));
                         img.src = url;
                     });
-                    
+
                     const canvas = document.createElement("canvas");
                     const scale = 4; // High DPI 4x scale to eliminate aliasing
                     canvas.width = width * scale;
@@ -176,7 +185,7 @@
                     ctx.fillRect(0, 0, width, height);
                     ctx.drawImage(img, 0, 0, width, height);
                     URL.revokeObjectURL(url);
-                    
+
                     if (action === 'download') {
                         const pngDataUrl = canvas.toDataURL("image/png");
                         const a = document.createElement("a");
@@ -194,7 +203,7 @@
                                     new ClipboardItem({ "image/png": blob })
                                 ]);
                                 showSuccessFeedback('copy-btn');
-                            } catch(err) {
+                            } catch (err) {
                                 console.error('Clipboard write failed:', err);
                                 alert("Could not copy image to clipboard. Please check browser permissions.");
                             }
@@ -228,4 +237,5 @@
         });
     </script>
 </body>
+
 </html>
