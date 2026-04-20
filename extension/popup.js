@@ -70,7 +70,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Handlers
     infoBtn.addEventListener('click', () => {
-        const targetLink = "https://tr4n.github.io/qr-generator/qr.html?logo=dabeeo&size=400x400&data=" + encodeURIComponent(currentUrl);
+        const targetLink = "https://tr4n.github.io/qr-generator/qr.html?logo=dabeeo&size=320x320&data=" + encodeURIComponent(currentUrl);
         if (typeof chrome !== 'undefined' && chrome.tabs) {
             chrome.tabs.create({ url: targetLink });
         } else {
