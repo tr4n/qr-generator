@@ -21,7 +21,7 @@ document.addEventListener('DOMContentLoaded', () => {
             type: "canvas", // UI uses canvas purely for live preview snippet
             data: text,
             margin: 0,
-            image: chrome.runtime.getURL("ic_dabeeo.svg"),
+            image: chrome.runtime.getURL("ic_dabeeo_3d.svg"),
             qrOptions: {
                 typeNumber: 0,
                 mode: "Byte",
