@@ -367,7 +367,7 @@ document.addEventListener('DOMContentLoaded', async () => {
                 const pad = n => n.toString().padStart(2, '0');
                 const d = new Date();
                 const timestamp = `${d.getFullYear()}${pad(d.getMonth()+1)}${pad(d.getDate())}-${pad(d.getHours())}${pad(d.getMinutes())}${pad(d.getSeconds())}`;
-                await fallbackQr.download({ name: `qrcode-${timestamp}`, extension: "png" });
+                await fallbackQr.download({ name: `qrcode-${timestamp}.png`, extension: "png" });
             } catch (fallbackError) {
                 console.error("Fallback failed:", fallbackError);
             }
