@@ -41,6 +41,13 @@
 <body class="antialiased text-gray-800">
     <div id="qr-container"
         class="bg-white p-4 rounded-2xl shadow-sm border border-gray-100 flex justify-center items-center"></div>
+        
+    <div id="url-container" class="w-full px-4 flex" style="max-width: 380px; display: none;">
+        <input type="text" id="url-input" readonly 
+            class="w-full bg-white border border-gray-200 text-gray-600 text-sm rounded-xl focus:ring-primary focus:border-primary block p-3 shadow-sm outline-none transition-colors"
+            title="QR Code URL">
+    </div>
+
     <div class="flex gap-4 w-full px-4" id="button-container" style="max-width: 380px; display: none;">
         <button id="download-btn"
             class="flex-1 bg-primary hover:bg-indigo-700 text-white font-medium py-3 px-4 rounded-xl transition-colors flex justify-center items-center gap-2 shadow-sm hover:shadow-md text-sm">
@@ -120,7 +127,21 @@
             }
 
             document.getElementById('button-container').style.display = 'flex';
-            document.getElementById('button-container').style.maxWidth = Math.max(width + 32, 380) + 'px'; // +32 for container padding
+            const maxWidth = Math.max(width + 32, 380) + 'px';
+            document.getElementById('button-container').style.maxWidth = maxWidth; // +32 for container padding
+
+            const urlContainer = document.getElementById('url-container');
+            const urlInput = document.getElementById('url-input');
+            if (urlContainer && urlInput) {
+                urlContainer.style.display = 'flex';
+                urlContainer.style.maxWidth = maxWidth;
+                urlInput.value = dataStr;
+                
+                // Allow user to easily select text
+                urlInput.addEventListener('click', function() {
+                    this.select();
+                });
+            }
 
             const options = {
                 width: width,
