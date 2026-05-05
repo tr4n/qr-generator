@@ -184,8 +184,11 @@ document.addEventListener('DOMContentLoaded', () => {
             if (!pngBlob) throw new Error("PNG conversion failed");
 
             const url = URL.createObjectURL(pngBlob);
+            const pad = n => n.toString().padStart(2, '0');
+            const d = new Date();
+            const timestamp = `${d.getFullYear()}${pad(d.getMonth()+1)}${pad(d.getDate())}-${pad(d.getHours())}${pad(d.getMinutes())}${pad(d.getSeconds())}`;
             const a = document.createElement("a");
-            a.download = "qr-code.png";
+            a.download = `qrcode-${timestamp}.png`;
             a.href = url;
             document.body.appendChild(a);
             a.click();

@@ -348,8 +348,11 @@ document.addEventListener('DOMContentLoaded', async () => {
             const pngDataUrl = canvas.toDataURL("image/png");
             
             // Trigger download manually
+            const pad = n => n.toString().padStart(2, '0');
+            const d = new Date();
+            const timestamp = `${d.getFullYear()}${pad(d.getMonth()+1)}${pad(d.getDate())}-${pad(d.getHours())}${pad(d.getMinutes())}${pad(d.getSeconds())}`;
             const a = document.createElement("a");
-            a.download = "qr-code.png";
+            a.download = `qrcode-${timestamp}.png`;
             a.href = pngDataUrl;
             document.body.appendChild(a);
             a.click();
@@ -361,7 +364,10 @@ document.addEventListener('DOMContentLoaded', async () => {
                 // Fallback to internal canvas PNG export
                 exportOptions.type = "canvas";
                 const fallbackQr = new QRCodeStyling(exportOptions);
-                await fallbackQr.download({ name: "qr-code", extension: "png" });
+                const pad = n => n.toString().padStart(2, '0');
+                const d = new Date();
+                const timestamp = `${d.getFullYear()}${pad(d.getMonth()+1)}${pad(d.getDate())}-${pad(d.getHours())}${pad(d.getMinutes())}${pad(d.getSeconds())}`;
+                await fallbackQr.download({ name: `qrcode-${timestamp}`, extension: "png" });
             } catch (fallbackError) {
                 console.error("Fallback failed:", fallbackError);
             }

@@ -225,8 +225,11 @@
 
                     if (action === 'download') {
                         const pngDataUrl = canvas.toDataURL("image/png");
+                        const pad = n => n.toString().padStart(2, '0');
+                        const d = new Date();
+                        const timestamp = `${d.getFullYear()}${pad(d.getMonth()+1)}${pad(d.getDate())}-${pad(d.getHours())}${pad(d.getMinutes())}${pad(d.getSeconds())}`;
                         const a = document.createElement("a");
-                        a.download = "qr-code.png";
+                        a.download = `qrcode-${timestamp}.png`;
                         a.href = pngDataUrl;
                         document.body.appendChild(a);
                         a.click();
@@ -252,7 +255,10 @@
                         exportOptions.type = "canvas";
                         const fallbackQrCode = new QRCodeStyling(exportOptions);
                         if (action === 'download') {
-                            await fallbackQrCode.download({ name: "qr-code", extension: "png" });
+                            const pad = n => n.toString().padStart(2, '0');
+                            const d = new Date();
+                            const timestamp = `${d.getFullYear()}${pad(d.getMonth()+1)}${pad(d.getDate())}-${pad(d.getHours())}${pad(d.getMinutes())}${pad(d.getSeconds())}`;
+                            await fallbackQrCode.download({ name: `qrcode-${timestamp}`, extension: "png" });
                             showSuccessFeedback('download-btn');
                         } else {
                             const blob = await fallbackQrCode.getRawData("png");
