@@ -18,7 +18,7 @@ document.addEventListener('DOMContentLoaded', () => {
         currentOptions = {
             width: 250, // UI container exact size to avoid CSS warp
             height: 250,
-            type: "canvas", // UI uses canvas purely for live preview snippet
+            type: "svg", // Use svg for crisp high-dpi display
             data: text,
             margin: 0,
             image: chrome.runtime.getURL("ic_dabeeo_3d.svg"),
