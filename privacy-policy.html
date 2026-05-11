@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Privacy Policy - Dabeeo QR</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary-color: #6366f1;
+            --secondary-color: #a855f7;
+            --bg-color: #0f172a;
+            --card-bg: rgba(30, 41, 59, 0.7);
+            --text-main: #f8fafc;
+            --text-muted: #cbd5e1;
+        }
+
+        body {
+            font-family: 'Outfit', sans-serif;
+            background-color: var(--bg-color);
+            background-image: 
+                radial-gradient(at 0% 0%, hsla(253,16%,7%,1) 0, transparent 50%), 
+                radial-gradient(at 50% 0%, hsla(225,39%,30%,0.2) 0, transparent 50%), 
+                radial-gradient(at 100% 0%, hsla(339,49%,30%,0.2) 0, transparent 50%);
+            color: var(--text-main);
+            line-height: 1.6;
+            margin: 0;
+            padding: 0;
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 40px 20px;
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 60px;
+            animation: fadeInDown 0.8s ease-out;
+        }
+
+        h1 {
+            font-size: 3rem;
+            margin-bottom: 10px;
+            background: linear-gradient(to right, #818cf8, #c084fc);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            display: inline-block;
+        }
+
+        .last-updated {
+            color: var(--text-muted);
+            font-size: 1.1rem;
+            font-weight: 300;
+        }
+
+        .intro {
+            text-align: center;
+            font-size: 1.2rem;
+            margin-bottom: 40px;
+            color: var(--text-muted);
+            animation: fadeIn 1s ease-out 0.3s both;
+        }
+
+        .card {
+            background: var(--card-bg);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 30px;
+            margin-bottom: 30px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            box-shadow: 0 10px 30px -10px rgba(0,0,0,0.5);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            animation: slideUp 0.8s ease-out backwards;
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 20px 40px -15px rgba(99, 102, 241, 0.3);
+            border-color: rgba(168, 85, 247, 0.3);
+        }
+
+        /* Staggered animation delays for cards */
+        .card:nth-child(3) { animation-delay: 0.2s; }
+        .card:nth-child(4) { animation-delay: 0.4s; }
+        .card:nth-child(5) { animation-delay: 0.6s; }
+        .card:nth-child(6) { animation-delay: 0.8s; }
+        .card:nth-child(7) { animation-delay: 1.0s; }
+        .card:nth-child(8) { animation-delay: 1.2s; }
+
+        h2 {
+            font-size: 1.8rem;
+            margin-top: 0;
+            margin-bottom: 15px;
+            color: #fff;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .icon {
+            font-size: 1.5rem;
+        }
+
+        p {
+            margin-bottom: 15px;
+            color: var(--text-muted);
+        }
+
+        p:last-child {
+            margin-bottom: 0;
+        }
+
+        .highlight {
+            color: #f8fafc;
+            font-weight: 600;
+            background: rgba(99, 102, 241, 0.2);
+            padding: 2px 8px;
+            border-radius: 4px;
+        }
+
+        code {
+            background: rgba(0, 0, 0, 0.3);
+            padding: 4px 8px;
+            border-radius: 6px;
+            font-family: monospace;
+            color: #c084fc;
+        }
+
+        ul {
+            color: var(--text-muted);
+            padding-left: 20px;
+        }
+
+        li {
+            margin-bottom: 15px;
+        }
+
+        /* Animations */
+        @keyframes fadeInDown {
+            from { opacity: 0; transform: translateY(-30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        @keyframes slideUp {
+            from { opacity: 0; transform: translateY(40px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Privacy Policy</h1>
+            <div class="last-updated">Last Updated: May 11, 2026</div>
+        </header>
+
+        <p class="intro">Welcome to Dabeeo QR! Your privacy is of the utmost importance to us. This Privacy Policy outlines our practices regarding any information collected when you use the Dabeeo QR Chrome Extension.</p>
+
+        <div class="card">
+            <h2><span class="icon">🛡️</span> 1. Information We Collect</h2>
+            <p class="highlight">We do not collect, store, transmit, or share any personal information, user data, or browsing history.</p>
+            <p>The Dabeeo QR extension operates entirely locally on your device. It does not communicate with any external servers, nor does it track your activity across the web.</p>
+        </div>
+
+        <div class="card">
+            <h2><span class="icon">🔑</span> 2. Permissions Used and Why</h2>
+            <p>To function as intended, Dabeeo QR requires the following Chrome permissions:</p>
+            <ul>
+                <li><strong><code>activeTab</code></strong>: This permission allows the extension to temporarily access the URL of the currently active tab <em>only</em> when you explicitly click the extension icon. This is necessary to automatically generate a QR code for the page you are currently viewing. The URL data is processed locally on your machine and is never sent over the internet or stored permanently.</li>
+                <li><strong><code>clipboardWrite</code></strong>: This permission allows the extension to copy the generated QR code or its URL to your system's clipboard when you click the corresponding "Copy" button. We only write to your clipboard based on your explicit actions and we never read from your clipboard.</li>
+            </ul>
+        </div>
+
+        <div class="card">
+            <h2><span class="icon">⚙️</span> 3. Data Processing</h2>
+            <p>All QR code generation happens offline, directly within your browser, using local JavaScript libraries. No data is sent to the cloud for processing or storage.</p>
+        </div>
+
+        <div class="card">
+            <h2><span class="icon">🚫</span> 4. Analytics and Tracking</h2>
+            <p>Dabeeo QR does not use Google Analytics, cookies, or any other tracking mechanisms.</p>
+        </div>
+
+        <div class="card">
+            <h2><span class="icon">📝</span> 5. Changes to This Privacy Policy</h2>
+            <p>We may update our Privacy Policy from time to time. If we make significant changes to how we handle the limited permissions we require, we will update the "Last Updated" date at the top of this document.</p>
+        </div>
+
+        <div class="card">
+            <h2><span class="icon">👋</span> 6. Contact Us</h2>
+            <p>If you have any questions or suggestions about our Privacy Policy, please contact the developer at the provided contact channel via the Chrome Web Store support tab.</p>
+        </div>
+    </div>
+</body>
+</html>
